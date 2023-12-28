@@ -1,16 +1,20 @@
-# This is a sample Python script.
+from aiogram import Bot, Dispatcher, executor, types
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+API_TOKEN = '6814578559:AAFeQ32E6V31qY70ehwbpJdbpfNavSb3ERI'
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher(bot)
 
 
-# Press the green button in the gutter to run the script.
+@dp.message_handler(commands=['start'])
+async def send_welcome(message: types.Message):
+    await message.reply("Привет!\nЯ персональный бот!\nОтправь мне любое сообщение, а я тебе обязательно отвечу.")
+
+
+@dp.message_handler()
+async def echo(message: types.Message):
+    await message.answer(message.text)
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    executor.start_polling(dp, skip_updates=True)
